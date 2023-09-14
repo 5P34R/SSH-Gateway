@@ -14,6 +14,8 @@ import (
 func main() {
 
 	containerAddresses := utils.GetContainerAddress()
+	cyclicList := utils.NewCyclicList(containerAddresses)
+	userCount := make(map[string]int)
 
 	listener, err := net.Listen("tcp", ":22")
 	if err != nil {
@@ -32,13 +34,16 @@ func main() {
 			continue
 		}
 		fmt.Println(conn.RemoteAddr())
-		containerAddress := containerAddresses[rand.Intn(len(containerAddresses))]
+		containerAddress := cyclicList.Next()
+		userCount[containerAddress]++
 
 		wg.Add(1)
 		go func(conn net.Conn, containerAddress string) {
 			defer wg.Done()
 			forwardConnection(conn, containerAddress)
+			userCount[containerAddress]--
 		}(conn, containerAddress)
+		utils.PrintUserCount(userCount)
 	}
 
 	wg.Wait()
