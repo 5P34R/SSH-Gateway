@@ -1,0 +1,81 @@
+version: '3'
+services:
+  user1:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user1
+    ports:
+      - "2201:22"
+
+  user2:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user2
+    ports:
+      - "2202:22"
+
+  user3:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user3
+    ports:
+      - "2203:22"
+
+  user4:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user4
+    ports:
+      - "2204:22"
+
+  user5:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user5
+    ports:
+      - "2205:22"
+
+  user6:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user6
+    ports:
+      - "2206:22"
+
+  user7:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user7
+    ports:
+      - "2207:22"
+
+  user8:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user8
+    ports:
+      - "2208:22"
+
+  user9:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user9
+    ports:
+      - "2209:22"
+
+  user10:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssh
+    container_name: user10
+    ports:
+      - "2210:22"
