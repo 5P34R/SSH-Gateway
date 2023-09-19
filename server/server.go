@@ -2,7 +2,7 @@ package server
 
 import (
 	"log"
-
+	"ssh-gateway/gateway"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
@@ -15,5 +15,11 @@ func Start(port string) {
 	})
 
 	AppRouter(app)
+
+
+	go func () {
+		gateway.Start()
+	}()
+	
 	log.Fatal(app.Listen(port))
 }

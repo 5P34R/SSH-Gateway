@@ -1,10 +1,16 @@
 package gateway
 
-import "fmt"
+import (
+	"fmt"
+	"ssh-gateway/counter"
+)
 
-func PrintUserCount(userCount map[string]int) {
+
+func PrintUserCount() {
+	usersCount := counter.GlobalUserCount
+	fmt.Println(usersCount)
 	fmt.Println("Current Number of Users in Containers:")
-	for containerAddress, count := range userCount {
+	for containerAddress, count := range usersCount.GetCounts() {
 		fmt.Printf("Container %s: %d users\n", containerAddress, count)
 	}
 	fmt.Println("------------------------")

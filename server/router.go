@@ -8,4 +8,5 @@ import (
 
 func AppRouter(app *fiber.App) {
 	app.Get("/", controllers.HomeController)
+	app.Get("/delete/:id", controllers.DeleteContainer)
 }

@@ -16,9 +16,18 @@ type Container struct {
 func HomeController(c *fiber.Ctx) error {
 
 	containerCount := gateway.GetNumberOfContainer()
+	containers := gateway.ContainerList()
 
 	return c.Render("index", fiber.Map{
 		"Title":          "Hello World",
 		"containerCount": containerCount,
+		"containers":     containers,
+	})
+}
+
+func DeleteContainer(c *fiber.Ctx) error {
+	ID := c.Params("id")
+	return c.JSON(fiber.Map{
+		"container id": ID,
 	})
 }

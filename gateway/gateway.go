@@ -8,18 +8,24 @@ import (
 	"net"
 	"sync"
 	"time"
+	"os"
+	"ssh-gateway/counter"
 )
 
+
 func Start() {
+	userCount := counter.NewUserCount()
+
 
 	containerAddresses := GetContainerAddress()
 	cyclicList := NewCyclicList(containerAddresses)
-	userCount := make(map[string]int)
 
 	listener, err := net.Listen("tcp", ":22")
 	if err != nil {
 		log.Fatalf("Failed to listen on port 22: %v", err)
+		os.Exit(0)
 	}
+	fmt.Println("Gateway started on port 22")
 	defer listener.Close()
 
 	rand.Seed(time.Now().UnixNano())
@@ -34,15 +40,15 @@ func Start() {
 		}
 		fmt.Println(conn.RemoteAddr())
 		containerAddress := cyclicList.Next()
-		userCount[containerAddress]++
+		userCount.Increment(containerAddress)
 
 		wg.Add(1)
 		go func(conn net.Conn, containerAddress string) {
 			defer wg.Done()
 			forwardConnection(conn, containerAddress)
-			userCount[containerAddress]--
+			userCount.Decrement(containerAddress)
 		}(conn, containerAddress)
-		PrintUserCount(userCount)
+		PrintUserCount()
 	}
 
 	wg.Wait()
