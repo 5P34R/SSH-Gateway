@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 )
 
@@ -66,7 +67,7 @@ func ContainerList() []types.Container {
 	}
 
 	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{
-		All: false,
+		All: true,
 	})
 
 	if err != nil {
@@ -74,4 +75,20 @@ func ContainerList() []types.Container {
 	}
 
 	return containers
+}
+
+func StopContainer(id string) error {
+	ctx := context.Background()
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	cli.NegotiateAPIVersion(ctx)
+	if err != nil {
+		log.Fatalf("Failed to create docker client: %v", err)
+	}
+
+	err = cli.ContainerStop(context.Background(), id, container.StopOptions{})
+	if err != nil {
+		// panic(err)
+		return err
+	}
+	return nil
 }

@@ -25,9 +25,20 @@ func HomeController(c *fiber.Ctx) error {
 	})
 }
 
-func DeleteContainer(c *fiber.Ctx) error {
+func StopContainer(c *fiber.Ctx) error {
 	ID := c.Params("id")
+
+	err := gateway.StopContainer(ID)
+	if err != nil {
+		return c.JSON(fiber.Map{
+			"container id": ID,
+			"message":      err.Error(),
+		})
+	}
+
 	return c.JSON(fiber.Map{
 		"container id": ID,
+		"message":      "Deleted successfully",
 	})
+
 }

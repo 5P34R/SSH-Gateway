@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8,34 +8,30 @@
 </head>
 
 <body class="h-[100%] w-full">
-    <div class=" bg-gray-900 p-10 rounded-lg shadow-md h-full">
+    <div class="bg-gray-900 p-10 rounded-lg shadow-md h-full">
         <h1 class="text-2xl font-semibold mb-4 text-center font-semibold text-gray-200">Container Dashboard</h1>
 
-
         <div class="flex justify-between items-center py-4">
+            <!-- Total Number of Containers -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2 text-gray-200">Total Number of Containers</h2>
+                <p class="text-gray-200">Total: <span id="totalContainers">{{ .containerCount }}</span></p>
+            </div>
 
-                <!-- Total Number of Containers -->
-                <div class="mb-6">
-                    <h2 class="text-xl font-semibold mb-2 text-gray-200">Total Number of Containers</h2>
-                    <p class="text-gray-200">Total: <span id="totalContainers">{{ .containerCount }}</span></p>
-                </div>
-        
-        
-                <!-- Container Uptime -->
-                <div>
-                    <h2 class="text-xl font-semibold mb-2 text-gray-200">Container Uptime</h2>
-                    <p class="text-gray-200">Uptime: <span id="containerUptime">00:00:00</span></p>
-                </div>
+            <!-- Container Uptime -->
+            <div>
+                <h2 class="text-xl font-semibold mb-2 text-gray-200">Container Uptime</h2>
+                <p class="text-gray-200">Uptime: <span id="containerUptime">00:00:00</span></p>
+            </div>
         </div>
 
-
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left  text-gray-400">
+            <table class="w-full text-sm text-left text-gray-400">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                     <tr class="bg-gray-700">
                         <th scope="col" class="p-4">
                             <div class="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-offset-gray-800 bg-gray-700 border-gray-600">
+                                <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-offset-gray-800 bg-gray-700 border-gray-600">
                                 <label for="checkbox-all-search" class="sr-only">checkbox</label>
                             </div>
                         </th>
@@ -47,9 +43,6 @@
                         </th>
                         <th scope="col" class="px-6 py-3 text-gray-200">
                             Container status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-gray-200">
-                            Users Count
                         </th>
                         <th scope="col" class="px-6 py-3 text-gray-200">
                             Uptime
@@ -68,34 +61,30 @@
                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                             </div>
                         </td>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">
                             {{ .Names }}
-                        </th>
+                        </td>
                         <td class="px-6 py-4">
                             {{ .ID }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ .State }} 
-                        </td>
-                        <td class="px-6 py-4">
-                            Yes
+                            {{ .State }}
                         </td>
                         <td class="px-6 py-4">
                             {{ .Status }}
                         </td>
                         <td class="flex items-center px-6 py-4">
-                            <a href="/delete/{{ .Names }}" class="p-3 px-4 font-medium bg-red-600 dark:bg-red-500 text-white rounded-md">Delete</a>
+                            {{ if eq .Status "exited"}}
+                                <a href="/start/{{ .ID }}" class="p-3 px-4 font-medium bg-green-600 dark:bg-green-500 text-white rounded-md">Start</a>
+                            {{else}}
+                                <a href="/stop/{{ .ID }}" class="p-3 px-4 font-medium bg-red-600 dark:bg-red-500 text-white rounded-md">Stop</a>
+                            {{end}}
                         </td>
                     </tr>
-                    {{end}}
-                    
+                    {{ end }}
                 </tbody>
             </table>
         </div>
-
-
-        
     </div>
-
 </body>
 </html>
